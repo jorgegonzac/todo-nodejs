@@ -1,16 +1,16 @@
 import { Router } from 'express';
 import { createTodo, updateTodo } from '../validators/todo';
 
-const controller = require('../controllers/todos');
+const todoController = require('../controllers/todos');
 
 const router = Router();
 
-router.get('/todo', controller.getAll);
+router.get('/todo', todoController.getAll);
 
-router.post('/todo', createTodo, controller.create);
+router.post('/todo', createTodo, todoController.create);
 
-router.put('/todo/:id', updateTodo, controller.update);
+router.put('/todo/:id', updateTodo, todoController.update);
 
-router.delete('/todo/:id', controller.delete);
+router.delete('/todo/:id', todoController.delete);
 
 export default router;
