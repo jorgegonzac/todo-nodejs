@@ -6,6 +6,7 @@ const SALT_WORK_FACTOR = 10;
 export interface IAccount extends Document {
     email: string;
     password: string;
+    comparePassword: Function;
 }
 
 const AccountSchema: Schema = new Schema({
@@ -34,5 +35,11 @@ AccountSchema.pre('save', function(next) {
     });
 });
 
+AccountSchema.methods.comparePassword = function(password: String, cb: Function) {
+    bcrypt.compare(password, this.password, function(err, isMatch) {
+        if (err) return cb(err);
+        cb(null, isMatch);
+    });
+};
 
 export default mongoose.model<IAccount>('Account', AccountSchema);
