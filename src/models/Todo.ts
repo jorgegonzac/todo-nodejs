@@ -5,7 +5,7 @@ export interface ITodo extends Document {
 }
 
 const TodoSchema: Schema = new Schema({
-    description: { type: String, required:true },
+    description: { type: String, required:true, index: { unique: true } },
     isDone: { type: Boolean, required: true }
 });
 

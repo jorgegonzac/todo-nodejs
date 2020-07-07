@@ -11,7 +11,11 @@ app.use(bodyParser.json());
 app.use(routes);
 
 mongoose
-.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+.connect(MONGODB_URI, { 
+    useNewUrlParser: true, 
+    useUnifiedTopology: true, 
+    useCreateIndex: true 
+})
 .then(() => {
     app.listen(PORT);
 })
