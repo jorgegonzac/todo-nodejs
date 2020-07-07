@@ -58,7 +58,7 @@ exports.update = (req: Request, res: Response, next: NextFunction) => {
         if (todo) {
             return res.status(200).json({ todo: todo });
         } else {
-            return res.status(404).json({ message: "The given element does not exist" });
+            throw404(res);
         }
     })
     .catch(err => {
@@ -70,7 +70,15 @@ exports.update = (req: Request, res: Response, next: NextFunction) => {
 exports.delete = (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
     Todo.findByIdAndDelete(id)
-    .then(() => {
-        return res.status(204).json({ message: "Todo deleted" });
+    .then(todo => {
+        if (todo) {
+            return res.status(204).json({ message: "Todo deleted" });
+        } else {
+            throw404(res);
+        }
     });
 };
+
+function throw404(res: Response) {
+    return res.status(404).json({ message: "The given element does not exist" });
+}
