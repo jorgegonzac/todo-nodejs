@@ -1,5 +1,6 @@
 import Todo from '../models/Todo';
 import {Request, Response, NextFunction} from 'express';
+import { validationResult } from 'express-validator';
 
 type RequestBody = {
     description: string,
@@ -17,6 +18,12 @@ exports.getAll = (req: Request, res: Response, next: NextFunction) => {
 };
 
 exports.create = (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() })
+    }
+
     const body = req.body as RequestBody;
     const { description } = body;
     const todo = new Todo({
@@ -29,6 +36,12 @@ exports.create = (req: Request, res: Response, next: NextFunction) => {
 };
 
 exports.update = (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() })
+    }
+
     const body = req.body as RequestBody;
     const { description, isDone } = body;
     const id = req.params.id;
